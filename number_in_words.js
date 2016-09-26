@@ -68,6 +68,9 @@ function in_words(n) {
       if(satuan>1){
       tampungRoman.push(" "+angka[satuan] + " belas")
       }
+      else if(satuan==0){
+      tampungRoman.push(" sepuluh")
+      }
       else if(satuan==1){
       tampungRoman.push(" "+"sebelas")
       }

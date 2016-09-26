@@ -7,6 +7,12 @@ var tampung = [];
 function in_words(n){
   var stringAngka = n.toString();
 
+  if(stringAngka.length == 5){
+    if(n === 10000){
+      tampung.push(khusus[0] + " " + satuan[4])
+    }
+  }
+
   if(stringAngka.length ==  4){
     if(n === 1000){
       tampung.push(khusus[3])
@@ -67,18 +73,20 @@ function in_words(n){
   }
 
   if(stringAngka.length ==  1){
-    tampung.push( bahasa [ (angka.indexOf(parseInt(stringAngka[0]))) ] );
-    var arr = stringAngka.split("");
-    arr.shift();
-    var x = Number(arr.join(""));
+    if(n == 0){
+      tampung.push("Nol")
+    }else{
+      tampung.push( bahasa [ (angka.indexOf(parseInt(stringAngka[0]))) ] );
+      var arr = stringAngka.split("");
+      arr.shift();
+      var x = Number(arr.join(""));
+    }
+
+
   }
-
-  if(stringAngka.length ==  0){
-
-  }
-
   console.log(tampung.join(" "));
+  // return tampung.join("");
 }
+in_words(7)
 
-
-in_words(8519)
+//in_words(10001)

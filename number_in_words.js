@@ -46,7 +46,10 @@ function in_words(n) {
     tampungRoman.push(angka[puluhRibuan] + " puluh ")
     }
     // push ribuan
-      if(ribuan>0){
+    if(ribuan==1){
+      tampungRoman.push("seribu ")
+    }
+     else if(ribuan>0){
       tampungRoman.push(angka[ribuan] + " ribu")
       }
     // push ratusan

@@ -1,49 +1,117 @@
-function in_words(angka) {
-  // Your code here
-  var satuan = ['', 'satu', 'dua', 'tiga' ,'empat' ,'lima' ,'enam' ,'tujuh' ,'delapan', 'sembilan', 'sepuluh',
-                'sebelas', 'dua belas', 'tiga belas', 'empat belas', 'lima belas', 'enam belas', 'tujuh belas', 'delapan belas', 'sembilan belas'];
-  var puluhan = ['', '', 'dua puluh', 'tiga puluh', 'empat puluh', 'lima puluh', 'enam puluh', 'tujuh puluh', 'delapan puluh', 'sembilan puluh'];
-  var ratusan = ['', 'seratus', 'dua ratus', 'tiga ratus', 'empat ratus', 'lima ratus', 'enam ratus', 'tujuh ratus', 'delapan ratus', 'sembilan ratus'];
-  var jutaan = ['', 'satu juta', 'dua juta', 'tiga juta', 'empat juta', 'lima juta', 'enam juta', 'tujuh juta', 'delapan juta', 'sembilan juta'];
+function in_words(input){
+	var arrayInti = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan'];
 
-  var n = ('000000000' + angka).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-  //console.log(n);
-  var result = '';
+  var magic = 0;
+	if(input > 0 && input < 100){//1 - 99
+		magic = 10;
+		if(input < 10 ){//1 - 9 DONE
+			for(var i = 0 ; i < arrayInti.length ; i++){
+				if(i == input){
+					return arrayInti[i];
+				}
+			}
+		}else if(input >= 10 && input < 20){//11 - 19 DONE
+			if(input == 10){
+				return "sepuluh";
+			}else if(input == 11){
+				return "sebelas";
+			}else{
+				var satuan = Math.floor(input / magic) * magic;
+				input -= satuan;
+				for(var i = 0 ; i < arrayInti.length ; i++){
+					if(input == i){
+						return arrayInti[i] + " belas";
+					}
+				}
+			}
+		}else if(input >= 20 && input < 100){
+			return controller(input, arrayInti, 10);
+		}
+	}else if(input >= 100 && input < 1000){//100 - 999
+		return controller(input, arrayInti, 100);
+	}else if(input >= 1000 && input < 100000){//1.000 - 100.000
+		return controller(input, arrayInti, 1000);
+	}
+}
 
-  if (n[1] != 0) {
-    result += (satuan[(n[1])] || puluhan[n[1][0]] + ' ' + satuan[n[1][1]]) + 'puluh ';
-  }
+function controller(input, arrayInti, magic){
+  var pengurang = 0;
+  var hasilKurang = 0;
+	if(input % magic != 0 ){
+		pengurang = Math.floor(input / magic) * magic;
+		hasilKurang = input - pengurang;
+    //console.log("a");
+	}
+	//console.log(input);
+	var pembilang;
+	if(magic == 10){
+		pembilang = " puluh ";
+	}else if(magic == 100){
+		pembilang = " ratus ";
+	}else if(magic == 1000){
+		pembilang = " ribu ";
+	}
 
-  if (n[2] != 0) {
-    result += (satuan[(n[2])] || jutaan[n[2][0]] + ' ' + ratusan[n[2][1]]) + 'ratus ';
-  }
-
-  if (n[3] != 0) {
-    if (n[3] == 1) {
-      result += 'seribu ';
-    } else {
-      result += (satuan[(n[3])] || puluhan[n[3][0]] + ' ' + satuan[n[3][1]]) + 'ribu ';
+  if(magic <= 100){//1 - 100
+    if(hasilKurang >= 1 && hasilKurang < 100){
+      if(pengurang == 100){
+        return "seratus " + in_words(hasilKurang);
+      }else{
+        for(var i = 0 ; i < arrayInti.length ; i++){
+          if(pengurang == (i*magic) ){
+            return arrayInti[i] + pembilang + in_words(hasilKurang);
+          }
+        }
+      }
+    }else{
+      if(input == 100){
+  			return "seratus";
+  		}else{
+  			for(var i = 0 ; i < arrayInti.length ; i++){
+  				if(input == (i*magic) ){
+  					return arrayInti[i] + pembilang;
+  				}
+  			}
+  		}
+    }
+  }if(magic == 1000){//1.000 - 100.000
+    console.log(input);
+    console.log(pengurang);
+    console.log(hasilKurang);
+    if(hasilKurang >= 1 && hasilKurang < 1000){
+      //console.log(pengurang);
+      if(pengurang == 1000){
+        //console.log(hasilKurang);
+        return "seribu " + in_words(hasilKurang);
+      }else{
+        console.log(hasilKurang);
+        for(var i = 0 ; i < arrayInti.length ; i++){
+          if(hasilKurang == i ){
+            //console.log(pengurang/1000);
+              console.log(input);
+              return in_words(pengurang/1000) + pembilang + in_words(hasilKurang);
+          }
+        }
+      }
+    }else{
+      //console.log(input/1000);
+      if(input == 1000){
+  			return "seribu";
+  		}else{
+        //console.log(input);
+  			for(var i = 0 ; i < arrayInti.length ; i++){//1000 2000 3000 4000
+  				if(input == (i*magic) ){
+  					return in_words(input/1000) + pembilang;
+  				}
+  			}
+  		}
     }
   }
-
-  if (n[4] != 0) {
-    if (n[4] == 1) {
-      result += 'seratus ';
-    } else {
-      result += (satuan[(n[4])] || satuan[n[4][0]] + ' ' + satuan[n[4][1]]) + 'ratus ';
-    }
-  }
-
-  if(n[5] != 0){
-      result += '' + (satuan[(n[5])] || puluhan[n[5][0]] + ' ' + satuan[n[5][1]]);
-  }
-
-  return result;
 }
 
 // Driver code
-console.log(in_words(4));
-console.log(in_words(27));
-console.log(in_words(102));
-console.log(in_words(38079));
-console.log(in_words(82102713));
+//console.log(in_words(4));
+//console.log(in_words(27));
+console.log(in_words(1202));//2100, 1500, 9900, 
+//console.log(in_words(38079));
+//console.log(in_words(82102713));

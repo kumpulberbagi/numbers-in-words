@@ -3,23 +3,21 @@ function in_words(angka) {
   var word = ["","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan","sepuluh","sebelas"];
   var selipan = ["puluh","ratus"];
   var arr = [];
-    for (var i = 0; i < angka.length; i++){
-
+    // for (var i = 0; i < angka.length; i++){
+    // }
+    angka = angka.toString();
+  var pecah = angka.split("");
+  pecah = pecah.reverse();
+  var arr = [];
+  for (var i = 0; i < angka.length; i++){
+    if (angka[1] === 1){
+      arr.push(word[angka[i-1]+"belas"]);
     }
-
-//   angka = angka.toString();
-//   var pecah = angka.split("");
-//   pecah = pecah.reverse();
-//   var arr = [];
-//   for (var i = 0; i < angka.length; i++){
-//     if (angka[1] === 1){
-//       arr.push(word[angka[i-1]+"belas"]);
-//     }
-//     arr.push(word[angka[i]]);
-//     if (i === 1){
-//       arr.splice(i,0,selipan[0]);
-//     }
-//   }
+    arr.push(word[angka[i]]);
+    if (i === 1){
+      arr.splice(i,0,selipan[0]);
+    }
+  }
  var hasil = arr.join(" ");
  console.log(hasil);
 }
